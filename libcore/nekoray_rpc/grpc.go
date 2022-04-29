@@ -32,7 +32,6 @@ func Main() {
 	_port := flag.Int("port", 19810, "")
 	flag.CommandLine.Parse(os.Args[2:])
 
-	fmt.Println("Nekoray RPC daemon")
 	go func() {
 		t := time.NewTicker(time.Second * 10)
 		for {
@@ -55,7 +54,7 @@ func Main() {
 
 	token := *_token
 	if token == "" {
-		fmt.Println("Please set a token: ")
+		os.Stderr.WriteString("Please set a token: ")
 		s := bufio.NewScanner(os.Stdin)
 		if s.Scan() {
 			token = strings.TrimSpace(s.Text())
@@ -76,7 +75,7 @@ func Main() {
 	)
 	RegisterLibcoreServiceServer(s, &server{})
 
-	log.Printf("server listening at %v", lis.Addr())
+	log.Printf("neokray grpc server listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

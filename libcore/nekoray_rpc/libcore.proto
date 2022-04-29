@@ -6,9 +6,11 @@ option go_package = "libcore/nekoray_rpc";
 service LibcoreService {
   rpc Exit(EmptyReq) returns (EmptyResp) {}
   rpc KeepAlive(EmptyReq) returns (EmptyResp) {}
+  //
   rpc Start(LoadConfigReq) returns (ErrorResp) {}
   rpc Stop(EmptyReq) returns (ErrorResp) {}
   rpc Test(TestReq) returns (TestResp) {}
+  rpc QueryStats(QueryStatsReq) returns (QueryStatsResp) {}
 }
 
 message EmptyReq {}
@@ -42,4 +44,13 @@ message TestReq {
 message TestResp {
   string error = 1;
   int32 ms = 2;
+}
+
+message QueryStatsReq{
+  string tag = 1;
+  string direct = 2;
+}
+
+message QueryStatsResp{
+  int64 traffic = 1;
 }
