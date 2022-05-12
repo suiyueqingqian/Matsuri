@@ -31,7 +31,9 @@ func (s *server) Start(ctx context.Context, in *LoadConfigReq) (out *ErrorResp, 
 		}
 	}()
 
-	logrus.Println("Start:", in.CoreConfig)
+	if nekoray_debug {
+		logrus.Println("Start:", in)
+	}
 
 	if instance != nil {
 		err = errors.New("Already started...")
@@ -89,6 +91,10 @@ func (s *server) Test(ctx context.Context, in *TestReq) (out *TestResp, _ error)
 			out.Error = err.Error()
 		}
 	}()
+
+	if nekoray_debug {
+		logrus.Println("Test:", in)
+	}
 
 	if in.Mode == TestMode_UrlTest {
 		i := libcore.NewV2rayInstance()
