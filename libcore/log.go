@@ -116,14 +116,18 @@ func (lp *logfile) Write(p []byte) (n int, err error) {
 		if offset, _ := lp.f.Seek(0, os.SEEK_END); offset > int64(max) {
 			lp.f.Seek(0, os.SEEK_SET)
 			data, _ := ioutil.ReadAll(lp.f)
-			lp.f.Truncate(0)
-			lp.f.Write(data[len(data)-max:])
+			if len(data)-max > 0 {
+				lp.f.Truncate(0)
+				lp.f.Write(data[len(data)-max:])
+			}
 		}
 	} else {
 		if lp.buf.Len() > max {
 			data := lp.buf.Bytes()
-			lp.buf.Reset()
-			lp.buf.Write(data[len(data)-max:])
+			if len(data)-max > 0 {
+				lp.buf.Reset()
+				lp.buf.Write(data[len(data)-max:])
+			}
 		}
 	}
 
